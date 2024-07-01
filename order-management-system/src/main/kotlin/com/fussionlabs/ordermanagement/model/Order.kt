@@ -1,14 +1,12 @@
 package com.fussionlabs.ordermanagement.model
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 
 @Entity
+@Table(name = "orders")
 data class Order(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    val id: Long,
     val productName: String,
     val quantity: Int,
     val price: Double,
