@@ -4,6 +4,7 @@ plugins {
     kotlin("plugin.spring") version "1.9.24"
     id("org.springframework.boot") version "3.3.1"
     id("io.spring.dependency-management") version "1.1.5"
+    id("com.bmuschko.docker-remote-api") version("9.4.0")
 }
 
 kotlin {
