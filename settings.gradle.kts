@@ -13,6 +13,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = "order-management-service-kotlin"
-
+rootProject.name = "order-management-service-kt"
 include("order-management-service")
