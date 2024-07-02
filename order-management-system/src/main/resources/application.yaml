@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/orders_db
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/orders_db}
+    username: ${SPRING_DATASOURCE_USERNAME:user}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
-    username: user
-    password: password
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,6 +14,8 @@ spring:
       name: admin
       password: admin
       roles: USER
-
-kafka:
-  bootstrap-servers: localhost:9092
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_GROUP_ID:order_group}
+    topic: ${KAFKA_TOPIC:orders}
