@@ -10,12 +10,13 @@ plugins {
     kotlin("plugin.spring") version("1.9.24") apply(false)
     id("org.springframework.boot") version("3.3.1") apply(false)
     id("io.spring.dependency-management") version("1.1.5") apply(false)
+    id("com.bmuschko.docker-remote-api") version("9.4.0") apply(false)
 }
 
-version = "1.0.0"
-group = "com.fussionlabs"
-
 subprojects {
+    version = "1.0.0"
+    group = "com.fussionlabs"
+
     repositories {
         mavenLocal()
         mavenCentral()

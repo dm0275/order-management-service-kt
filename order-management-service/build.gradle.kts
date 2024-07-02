@@ -1,11 +1,16 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
 plugins {
-    kotlin("jvm") version "1.9.24"
-    kotlin("plugin.jpa") version "1.9.24"
-    kotlin("plugin.spring") version "1.9.24"
-    id("org.springframework.boot") version "3.3.1"
-    id("io.spring.dependency-management") version "1.1.5"
-    id("com.bmuschko.docker-remote-api") version("9.4.0")
+    kotlin("jvm")
+    kotlin("plugin.jpa")
+    kotlin("plugin.spring")
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
+    id("com.bmuschko.docker-remote-api")
 }
+
+val imageRepository = "dm0275/order-management-service"
+val imageTags = listOf("$imageRepository:latest", "$imageRepository:$version")
 
 kotlin {
     jvmToolchain {
@@ -33,4 +38,14 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.register("dockerBuildImage", DockerBuildImage::class) {
+    dependsOn("assemble")
+    inputDir.set(projectDir)
+    images.addAll(imageTags)
+    buildArgs = mapOf(
+        "ARTIFACT_DIR" to "build/libs",
+        "ARTIFACT_NAME" to "${project.name}-${version}.jar"
+    )
 }
