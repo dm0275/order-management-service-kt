@@ -16,6 +16,13 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.*
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 
+/**
+ * Kafka configuration class for setting up Kafka producer and consumer factories,
+ * Kafka templates, and Kafka listener container factories.
+ *
+ * This class is annotated with `@Configuration` and `@EnableKafka` to enable Kafka support
+ * and to define beans for Kafka producers and consumers.
+ */
 @Configuration
 @EnableKafka
 class KafkaConfig {
@@ -26,6 +33,14 @@ class KafkaConfig {
     @Value("\${spring.kafka.consumer.group-id}")
     private lateinit var consumerGroupId: String
 
+    /**
+     * Creates a Kafka producer factory bean.
+     *
+     * This factory configures the necessary properties for the Kafka producer,
+     * including bootstrap servers, key serializer, and value serializer.
+     *
+     * @return A `ProducerFactory` for creating Kafka producers with specified configurations.
+     */
     @Bean
     fun producerFactory(): ProducerFactory<String, Order> {
         val configProps = mapOf(
@@ -36,11 +51,26 @@ class KafkaConfig {
         return DefaultKafkaProducerFactory(configProps)
     }
 
+    /**
+     * Creates a Kafka template bean.
+     *
+     * This template is used for sending messages to Kafka topics using the producer factory.
+     *
+     * @return A `KafkaTemplate` for sending messages to Kafka topics.
+     */
     @Bean
     fun kafkaTemplate(): KafkaTemplate<String, Order> {
         return KafkaTemplate(producerFactory())
     }
 
+    /**
+     * Creates a Kafka consumer factory bean.
+     *
+     * This factory configures the necessary properties for the Kafka consumer,
+     * including bootstrap servers, group ID, key deserializer, and value deserializer.
+     *
+     * @return A `ConsumerFactory` for creating Kafka consumers with specified configurations.
+     */
     @Bean
     fun consumerFactory(): ConsumerFactory<String, Order> {
         val configProps = mapOf(
@@ -55,6 +85,13 @@ class KafkaConfig {
         return DefaultKafkaConsumerFactory(configProps)
     }
 
+    /**
+     * Creates a Kafka listener container factory bean.
+     *
+     * This factory is used to configure Kafka listener containers to receive messages from Kafka topics.
+     *
+     * @return A `ConcurrentKafkaListenerContainerFactory` for creating Kafka listener containers.
+     */
     @Bean
     fun kafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, Order> {
         val factory = ConcurrentKafkaListenerContainerFactory<String, Order>()
